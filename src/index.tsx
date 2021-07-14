@@ -2,7 +2,6 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Config } from './types/global'
 import { getMarketplaceGlobalsByKey } from '@reapit/elements'
-import config from './reapit.config.json'
 
 // Init global config
 window.reapit = {
@@ -31,7 +30,13 @@ export const renderApp = (Component: React.ComponentType) => {
 const run = async () => {
   try {
     // Set the global config
-    window.reapit.config = config as Config
+    window.reapit.config = {
+      appEnv: process.env.REACT_APP_ENV || 'local',
+      connectClientId: process.env.REACT_APP_CONNECT_CLIENT_ID || '',
+      connectOAuthUrl: 'https://connect.reapit.cloud',
+      connectUserPoolId: process.env.REACT_APP_CONNECT_USER_POOL_ID || '',
+      platformApiUrl: 'https://platform.reapit.cloud',
+    } as Config
 
     // I import the app dynamically so that the config is set on window and I avoid any
     // runtime issues where config is undefined

@@ -21,7 +21,7 @@
     "dayjs": "^1.10.4",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
-    "eslint": "^7.11.0",
+    "eslint": "^7.30.0",
     "jest-config": "^26.6.3",
     "linaria": "^2.0.2",
     "react": "^16.14.0",
@@ -39,7 +39,9 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "serve": "serve build -s -l 8080",
-    "lint": "concurrently 'tsc --noEmit' 'eslint --cache --ext=ts,tsx src'"
+    "lint": "concurrently 'tsc --noEmit' 'eslint --cache --ext=ts,tsx src'",
+    "prettier-check": "prettier --check src/**/*.{ts,tsx}",
+    "format": "prettier --write 'src/**/*.{ts,tsx}'"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -55,5 +57,20 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "4",
+    "prettier": "^2.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn prettier-check && yarn lint"
+    }
   }
 }
