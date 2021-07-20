@@ -1,5 +1,7 @@
 import * as React from 'react'
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
+import { Router } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
 import { PrivateRouteWrapper } from '../private-route-wrapper'
 
 jest.mock('react-router', () => ({
@@ -17,6 +19,10 @@ jest.mock('@reapit/connect-session', () => ({
 
 describe('PrivateRouter', () => {
   it('should match a snapshot', () => {
-    expect(shallow(<PrivateRouteWrapper />)).toMatchSnapshot()
+    expect(
+      render(<PrivateRouteWrapper />, {
+        wrapper: ({ children }) => <Router history={createBrowserHistory()}>{children}</Router>,
+      }).asFragment(),
+    ).toMatchSnapshot()
   })
 })

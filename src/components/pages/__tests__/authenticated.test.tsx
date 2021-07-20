@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { shallow } from 'enzyme'
 import Authenticated from '../authenticated'
+import { render } from '@testing-library/react'
 
 describe('Authenticated', () => {
   it('should match a snapshot', () => {
-    expect(shallow(<Authenticated />)).toMatchSnapshot()
+    expect(render(<Authenticated />).asFragment()).toMatchSnapshot()
   })
 })

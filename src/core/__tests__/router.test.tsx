@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
 import Router, { catchChunkError } from '../router'
 
 describe('Router', () => {
   it('should match a snapshot', () => {
-    expect(shallow(<Router />)).toMatchSnapshot()
+    expect(render(<Router />).asFragment()).toMatchSnapshot()
   })
 
   describe('catchChunkError', () => {

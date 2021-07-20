@@ -77,8 +77,8 @@ const transformLoader = loader => {
 }
 
 const updateJestSetupTestFiles = config => {
-  const setupTestFile = path.resolve(__dirname, './src/setup-tests.js')
-  config.setupFiles.push(setupTestFile)
+  const setupFilesAfterEnv = path.resolve(__dirname, './src/setup-tests.js')
+  config.setupFilesAfterEnv.push(setupFilesAfterEnv)
   return config
 }
 
@@ -105,13 +105,13 @@ const addLinariaLoader = config => {
 // react-rewired configuration https://github.com/timarney/react-app-rewired
 module.exports = {
   // The Webpack config to use when compiling your react app for development or production.
-  webpack: function(config, env) {
+  webpack: function (config, env) {
     return {
       ...override(addBabelPreset('linaria/babel'), addLinariaLoader, removeOriginalForkTsCheckerWebpackPlugin)(config),
       ...patchForkTsCheckerWebpackPlugin(config, env),
     }
   },
-  jest: function(config) {
+  jest: function (config) {
     return updateJestSetupTestFiles(config)
   },
 }
