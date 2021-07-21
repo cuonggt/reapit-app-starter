@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { shallow } from 'enzyme'
+import { render } from '@testing-library/react'
 import { getMockRouterProps } from '../../../core/__mocks__/mock-router'
 import { Menu, generateMenuConfig, MenuProps } from '../menu'
 
@@ -8,8 +8,8 @@ describe('Menu', () => {
     const props = {
       ...getMockRouterProps({ params: {}, search: '' }),
     }
-    const wrapper = shallow(<Menu {...props} />)
-    expect(wrapper).toMatchSnapshot()
+    const { asFragment } = render(<Menu {...props} />)
+    expect(asFragment()).toMatchSnapshot()
   })
 
   describe('generateMenuConfig', () => {

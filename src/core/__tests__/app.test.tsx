@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { shallow } from 'enzyme'
+import { render as renderRtl } from '@testing-library/react'
 import App from '../app'
 import { render, unmountComponentAtNode } from 'react-dom'
 
@@ -13,6 +13,6 @@ describe('App', () => {
   })
 
   it('should match a snapshot', () => {
-    expect(shallow(<App />)).toMatchSnapshot()
+    expect(renderRtl(<App />).asFragment()).toMatchSnapshot()
   })
 })

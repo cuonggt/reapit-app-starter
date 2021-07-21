@@ -1,13 +1,21 @@
-const Adapter = require('enzyme-adapter-react-16')
-const Enzyme = require('enzyme')
-
-Enzyme.configure({ adapter: new Adapter() })
+import './test-servers'
+import '@testing-library/jest-dom/extend-expect'
 
 jest.mock('linaria', () => {
   return {
     css: jest.fn(() => ''),
     cx: jest.fn(() => ''),
   }
+})
+Object.defineProperty(window, 'location', {
+  value: {
+    hash: {
+      endsWith: jest.fn(),
+      includes: jest.fn(),
+    },
+    assign: jest.fn(),
+  },
+  writable: true,
 })
 
 Object.defineProperty(window, 'reapit', {

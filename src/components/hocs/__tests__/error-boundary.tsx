@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { shallow } from 'enzyme'
 import { ErrorBoundary } from '../error-boundary'
+import { render } from '@testing-library/react'
 
 const Component: React.FC = () => <div>I am a component!</div>
 Component.displayName = 'Component'
@@ -11,18 +11,21 @@ const props = {
 
 describe('ErrorBoundary', () => {
   it('should match a snapshot when no error', () => {
-    expect(shallow(<ErrorBoundary {...props} />)).toMatchSnapshot()
+    const { asFragment } = render(<ErrorBoundary {...props} />)
+
+    expect(asFragment()).toMatchSnapshot()
   })
 
   it('should match a snapshot when has an error', () => {
-    const component = shallow(<ErrorBoundary {...props} />)
-    component.setState({
-      hasFailed: true,
-    })
-    expect(component).toMatchSnapshot()
-  })
+    const ErrorComponent = () => {
+      throw new Error('Some thing went wrong')
+    }
+    const { asFragment } = render(
+      <ErrorBoundary {...props}>
+        <ErrorComponent />
+      </ErrorBoundary>,
+    )
 
-  afterEach(() => {
-    jest.restoreAllMocks()
+    expect(asFragment()).toMatchSnapshot()
   })
 })
