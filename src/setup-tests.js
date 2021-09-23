@@ -1,7 +1,7 @@
 import './test-servers'
 import '@testing-library/jest-dom/extend-expect'
 
-jest.mock('linaria', () => {
+jest.mock('@linaria/core', () => {
   return {
     css: jest.fn(() => ''),
     cx: jest.fn(() => ''),
