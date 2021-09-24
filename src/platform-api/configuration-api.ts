@@ -19,7 +19,7 @@ export const configurationAppointmentsApiService = async (
       return responseJson
     }
 
-    throw new Error('No response returned by API')
+    throw 'No response returned by API'
   } catch (err) {
     console.error('Error fetching Configuration Appointment Types', err)
   }
