@@ -1,4 +1,4 @@
-const { override, addBabelPreset } = require('customize-cra')
+const { override } = require('customize-cra')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const paths = require.resolve('react-scripts/config/paths')
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter')
@@ -12,8 +12,8 @@ const path = require('path')
  * disable useTypescriptIncrementalApi of react-scripts ForkTsCheckerWebpackPlugin
  * Fix Hanging at 'Files successfully emitted, waiting for typecheck results...' when yarn start on the first time
  */
-const removeOriginalForkTsCheckerWebpackPlugin = config => {
-  config.plugins = config.plugins.filter(plugin => {
+const removeOriginalForkTsCheckerWebpackPlugin = (config) => {
+  config.plugins = config.plugins.filter((plugin) => {
     return plugin.constructor.name !== 'ForkTsCheckerWebpackPlugin'
   })
 
@@ -49,7 +49,7 @@ const patchForkTsCheckerWebpackPlugin = (config, env) => {
 /**
  * Add linaria loader after babel loader
  */
-const transformLoader = loader => {
+const transformLoader = (loader) => {
   const options = loader.options || {}
   const presets = options.presets || []
   options.presets = presets
@@ -63,7 +63,7 @@ const transformLoader = loader => {
         options,
       },
       {
-        loader: 'linaria/loader',
+        loader: '@linaria/webpack-loader',
         options: {
           cacheDirectory: 'src/.linaria_cache',
           sourceMap: process.env.NODE_ENV !== 'production',
@@ -76,23 +76,23 @@ const transformLoader = loader => {
   }
 }
 
-const updateJestSetupTestFiles = config => {
+const updateJestSetupTestFiles = (config) => {
   const setupFilesAfterEnv = path.resolve(__dirname, './src/setup-tests.js')
   config.setupFilesAfterEnv.push(setupFilesAfterEnv)
   return config
 }
 
-const addLinariaLoader = config => {
+const addLinariaLoader = (config) => {
   /**
    * cra scripts rules atm (version 3)
    * https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/config/webpack.config.js
    */
-  const ruleWithOneOf = config.module.rules.find(rule => rule.oneOf)
+  const ruleWithOneOf = config.module.rules.find((rule) => rule.oneOf)
   if (ruleWithOneOf === null) {
     throw Error('Cant find webpack rule with oneOf')
   }
 
-  let subRuleWithTsxIndex = ruleWithOneOf.oneOf.findIndex(rule => rule.test.toString().includes('tsx'))
+  let subRuleWithTsxIndex = ruleWithOneOf.oneOf.findIndex((rule) => rule.test.toString().includes('tsx'))
   if (subRuleWithTsxIndex === -1) {
     throw Error('Cant find rule match ts/tsx')
   }
@@ -107,7 +107,7 @@ module.exports = {
   // The Webpack config to use when compiling your react app for development or production.
   webpack: function (config, env) {
     return {
-      ...override(addBabelPreset('linaria/babel'), addLinariaLoader, removeOriginalForkTsCheckerWebpackPlugin)(config),
+      ...override(addLinariaLoader, removeOriginalForkTsCheckerWebpackPlugin)(config),
       ...patchForkTsCheckerWebpackPlugin(config, env),
     }
   },

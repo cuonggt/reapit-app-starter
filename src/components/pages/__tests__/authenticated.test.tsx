@@ -1,6 +1,6 @@
 import * as React from 'react'
-import Authenticated from '../authenticated'
 import { render } from '@testing-library/react'
+import Authenticated from '../authenticated'
 
 describe('Authenticated', () => {
   it('should match a snapshot', () => {
