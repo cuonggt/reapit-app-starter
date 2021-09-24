@@ -3,6 +3,7 @@ import { render } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 import { PrivateRouteWrapper } from '../private-route-wrapper'
+import { NavStateProvider } from '@reapit/elements'
 
 jest.mock('react-router', () => ({
   ...(jest.requireActual('react-router') as Object),
@@ -21,7 +22,11 @@ describe('PrivateRouter', () => {
   it('should match a snapshot', () => {
     expect(
       render(<PrivateRouteWrapper />, {
-        wrapper: ({ children }) => <Router history={createBrowserHistory()}>{children}</Router>,
+        wrapper: ({ children }) => (
+          <NavStateProvider>
+            <Router history={createBrowserHistory()}>{children}</Router>
+          </NavStateProvider>
+        ),
       }).asFragment(),
     ).toMatchSnapshot()
   })
